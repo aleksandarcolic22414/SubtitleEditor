@@ -20,6 +20,8 @@
 
 using namespace std;
 
+#define STRLITSIZE(strlit) ((ARRAYSIZE(strlit)) - 1)
+
 // Convert time string with format hh:mm:ss,mss to miliseconds.
 // Returns 0 if conversion was successful, -1 otherwise.
 //
@@ -45,7 +47,7 @@ int TimeToMs(
 	//
 	if (!err)
 	{
-		for (int i = 0; i < ARRAYSIZE("hh"); ++i)
+		for (int i = 0; i < STRLITSIZE("hh"); ++i)
 		{
 			if (!isdigit(*extracter))
 			{
@@ -68,7 +70,7 @@ int TimeToMs(
 	//
 	if (!err)
 	{
-		for (int i = 0; i < ARRAYSIZE("mm"); ++i)
+		for (int i = 0; i < STRLITSIZE("mm"); ++i)
 		{
 			if (!isdigit(*extracter))
 			{
@@ -91,7 +93,7 @@ int TimeToMs(
 	//
 	if (!err)
 	{
-		for (int i = 0; i < ARRAYSIZE("ss"); ++i)
+		for (int i = 0; i < STRLITSIZE("ss"); ++i)
 		{
 			if (!isdigit(*extracter))
 			{
@@ -114,7 +116,7 @@ int TimeToMs(
 	//
 	if (!err)
 	{
-		for (int i = 0; i < ARRAYSIZE("mss"); ++i)
+		for (int i = 0; i < STRLITSIZE("mss"); ++i)
 		{
 			if (!isdigit(*extracter))
 			{
@@ -218,7 +220,7 @@ int parseStartAndEndTime(
 
 	// Extract start time.
 	//
-	while (*extracter && *extracter != ' ' && extracter - input < ARRAYSIZE("hh:mm:ss,mss") - 1)
+	while (*extracter && *extracter != ' ' && extracter - input < STRLITSIZE("hh:mm:ss,mss"))
 	{
 		*startTimeBuff++ = *extracter++;
 	}
@@ -231,7 +233,7 @@ int parseStartAndEndTime(
 
 	if (!err)
 	{
-		for (int i = 0; i < ARRAYSIZE(" --> "); ++i)
+		for (int i = 0; i < STRLITSIZE(" --> "); ++i)
 		{
 			++extracter;
 			if (*extracter == '\0')
@@ -251,7 +253,7 @@ int parseStartAndEndTime(
 	if (!err)
 	{
 		while (*extracter && *extracter != '\n' &&
-			   extracter - (input + ARRAYSIZE("hh:mm:ss,mss --> ")) < ARRAYSIZE("hh:mm:ss,mss"))
+			   extracter - (input + STRLITSIZE("hh:mm:ss,mss --> ")) < STRLITSIZE("hh:mm:ss,mss"))
 		{
 			*endTimeBuff++ = *extracter++;
 		}
@@ -426,7 +428,7 @@ int FixSubtitle(
 	if (err)
 	{
 		cerr << "Error on line " + to_string(lineNumber) << endl;
-		cerr << "Program terminated abnormaly." << endl;
+		cerr << "Program terminated abnormally." << endl;
 
 		if (delOutFileOnErr)
 		{
@@ -740,7 +742,7 @@ int main()
 			proportion = (long double)movDurInMs / subDurInMs;
 		}
 
-		cout << "Increment subtitle by secons: " << incBySec << endl;
+		cout << "Increment subtitle by seconds: " << incBySec << endl;
 		cout << "Fixing rate for subtitle: " << proportion << endl;
 
 		FixSubtitle(filePath, incBySec, proportion, true);
